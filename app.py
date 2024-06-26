@@ -54,23 +54,24 @@ def render_autos():  # put application's code here
     print(data_list)
 
     return render_template('autos.html', data=data_list)
-    return render_template('autos.html')
+
 
 @app.route('/search', methods=['GET', 'POST'])
 def render_search():  # put application's code here
 
     find = request.form['Search']
     title = "Look for: '" + find + "' "
+    find = "%" + find + "%"
 
-    query = "SELECT id, mileage, power, brand, dat, fuel, gear, condition FROM web_tags WHERE id = ? OR mileage = ?"
+    query = "SELECT id, mileage, power, brand, dat, fuel, gear, condition FROM web_tags WHERE id LIKE ? OR mileage LIKE ? OR power LIKE ? OR brand LIKE ? OR dat LIKE ? OR fuel LIKE ? OR gear LIKE ? OR condition LIKE ?"
     connection = create_connection(DATABASE)
     cursor = connection.cursor()
-    cursor.execute(query, (find, find))
+    cursor.execute(query, (find, find, find, find, find, find, find, find))
     data_list = cursor.fetchall()
     print(data_list)
 
     return render_template('webpages.html', data=data_list)
-    return render_template('autos.html')
+
 
 
 
